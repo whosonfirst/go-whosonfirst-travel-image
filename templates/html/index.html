@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{ .ID }}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="viewport" content="width=device-width" />
+    <style type="text/css">
+     img {
+	     max-width: 300px !important;
+	     max-height: 300px !important;
+	     padding: .5rem;
+	     border: 1px dotted #ccc;
+	     margin-bottom:.5rem;
+	     display:block;
+     }
+     
+     .image {
+	     max-width: 320px !important;
+	     max-height: 320px !important;
+	     min-width:320px !important;	     
+	     min-height:320px !important;
+	     padding: .25rem;
+	     float:left;
+     }
+     
+     .caption {
+	     font-size: small;
+	     font-family:sans-serif;
+	     display:block;
+     }
+    </style>
+  </head>
+  <body>
+      {{ range $i, $img := .Images }}
+
+      <div class="image">
+	  <img src="{{ index $img 0 }}" />
+  	  <span class="caption">({{ $i }}) {{ index $img 1 }}</span>
+      </div>
+      
+      {{ end }}
+  </body>
+</html>
