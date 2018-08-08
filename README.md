@@ -52,3 +52,7 @@ The "20th" in Paris:
 Leningrad and St. Petersburg in Russia:
 
 ![](docs/images/20180807-leningrad-stpetersburg.png)
+
+## See also
+
+* https://github.com/whosonfirst/go-whosonfirst-travel
