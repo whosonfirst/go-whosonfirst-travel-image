@@ -18,9 +18,9 @@ This should still be considered experimental.
 
 ## Tools
 
-### wof-travel-id
-
 Don't get too attached to anything yet. It might all still change...
+
+### wof-travel-id
 
 ```
 ./bin/wof-travel-id -source /usr/local/data/whosonfirst-data/data -superseded-by -timings -out test -html 1108955789
@@ -42,3 +42,13 @@ Which produces this:
 ![](docs/images/20180807-yugoslavia.png)
 
 All of the images and HTML output are included in [docs/example/1108955789](docs/example/1108955789)
+
+Other examples:
+
+The "20th" in Paris:
+
+![](docs/images/20180807-20th.png)
+
+Leningrad and St. Petersburg in Russia:
+
+![](docs/images/20180807-leningrad-stpetersburg.png)
