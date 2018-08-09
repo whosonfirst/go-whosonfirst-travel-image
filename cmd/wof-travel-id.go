@@ -17,6 +17,12 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-travel"
 	"github.com/whosonfirst/go-whosonfirst-travel-image/assets/html"
 	"github.com/whosonfirst/go-whosonfirst-travel/utils"
+	"golang.org/x/image/font"
+	"golang.org/x/image/font/basicfont"
+	"golang.org/x/image/math/fixed"
+	go_image "image"
+	    "image/color"
+	"image/draw"
 	"image/png"
 	"log"
 	"os"
@@ -108,11 +114,14 @@ func main() {
 		images := make([][]string, 0)
 		mu := new(sync.RWMutex)
 
-		cb := func(f geojson.Feature) error {
+		cb := func(f geojson.Feature, step int64) error {
 
 			id := f.Id()
 
-			fname := fmt.Sprintf("%s.png", id)
+			label := whosonfirst.LabelOrDerived(f)
+			label = fmt.Sprintf("%s %s", id, label)
+
+			fname := fmt.Sprintf("%03d-%s.png", step, id)
 
 			root := filepath.Join(abs_root, str_id)
 			path := filepath.Join(root, fname)
@@ -130,16 +139,44 @@ func main() {
 				return err
 			}
 
-			err = png.Encode(fh, im)
+			final := im
+
+			// labels...
+
+			bounds := im.Bounds()
+			max := bounds.Max
+
+			w := max.X
+			h := max.Y + 10 // ????
+
+			im2 := go_image.NewRGBA(go_image.Rect(0, 0, w, h))
+
+			draw.Draw(im2, bounds, im, go_image.ZP, draw.Src)
+
+			col := color.RGBA{0, 0, 0, 255}
+			
+			point := fixed.Point26_6{fixed.Int26_6(10 * 64), fixed.Int26_6(max.Y * 64)}
+
+			d := &font.Drawer{
+				Dst:  im2,
+				Src:  go_image.NewUniform(col),
+				Face: basicfont.Face7x13,
+				Dot:  point,
+			}
+			
+			d.DrawString(label)
+
+			final = im2
+
+			// end of labels
+
+			err = png.Encode(fh, final)
 
 			if err != nil {
 				return err
 			}
 
 			fh.Close()
-
-			label := whosonfirst.LabelOrDerived(f)
-			label = fmt.Sprintf("%s %s", id, label)
 
 			mu.Lock()
 			defer mu.Unlock()
@@ -181,7 +218,7 @@ func main() {
 
 		// speaking of things that really need to go in a separate package...
 		// (20180807/thisisaaronland)
-		
+
 		if *index_page {
 
 			fname := "index.html"
