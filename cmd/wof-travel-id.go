@@ -21,7 +21,7 @@ import (
 	"golang.org/x/image/font/basicfont"
 	"golang.org/x/image/math/fixed"
 	go_image "image"
-	    "image/color"
+	"image/color"
 	"image/draw"
 	"image/png"
 	"log"
@@ -64,6 +64,7 @@ func main() {
 
 	out := flag.String("out", "", "...")
 
+	draw_labels := flag.Bool("labels", false, "...")
 	parent_id := flag.Bool("parent", false, "...")
 	supersedes := flag.Bool("supersedes", false, "...")
 	superseded_by := flag.Bool("superseded-by", false, "...")
@@ -141,40 +142,39 @@ func main() {
 
 			final := im
 
-			// labels...
+			if *draw_labels {
 
-			bounds := im.Bounds()
-			max := bounds.Max
+				bounds := im.Bounds()
+				max := bounds.Max
 
-			w := max.X
-			h := max.Y + 10 // ????
+				w := max.X
+				h := max.Y + 10 // ????
 
-			pt_x := 10
-			pt_y := max.Y
-			
-			im2 := go_image.NewRGBA(go_image.Rect(0, 0, w, h))
+				pt_x := 10
+				pt_y := max.Y
 
-			draw.Draw(im2, bounds, im, go_image.ZP, draw.Src)
+				im2 := go_image.NewRGBA(go_image.Rect(0, 0, w, h))
 
-			col := color.RGBA{0, 0, 0, 255}
-			
-			point := fixed.Point26_6{
-			      fixed.Int26_6(pt_x * 64),
-			      fixed.Int26_6(pt_y * 64),
+				draw.Draw(im2, bounds, im, go_image.ZP, draw.Src)
+
+				col := color.RGBA{0, 0, 0, 255}
+
+				point := fixed.Point26_6{
+					fixed.Int26_6(pt_x * 64),
+					fixed.Int26_6(pt_y * 64),
+				}
+
+				d := &font.Drawer{
+					Dst:  im2,
+					Src:  go_image.NewUniform(col),
+					Face: basicfont.Face7x13,
+					Dot:  point,
+				}
+
+				d.DrawString(label)
+
+				final = im2
 			}
-
-			d := &font.Drawer{
-				Dst:  im2,
-				Src:  go_image.NewUniform(col),
-				Face: basicfont.Face7x13,
-				Dot:  point,
-			}
-			
-			d.DrawString(label)
-
-			final = im2
-
-			// end of labels
 
 			err = png.Encode(fh, final)
 
