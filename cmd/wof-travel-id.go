@@ -18,7 +18,7 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-travel-image/assets/html"
 	"github.com/whosonfirst/go-whosonfirst-travel/utils"
 	"golang.org/x/image/font"
-	"golang.org/x/image/font/basicfont"
+	"golang.org/x/image/font/inconsolata"
 	"golang.org/x/image/math/fixed"
 	go_image "image"
 	"image/color"
@@ -142,16 +142,18 @@ func main() {
 
 			final := im
 
+			// TO DO : draw labels at the top of the image rather than bottom
+
 			if *draw_labels {
 
 				bounds := im.Bounds()
 				max := bounds.Max
 
 				w := max.X
-				h := max.Y + 10 // ????
+				h := max.Y + 52
 
 				pt_x := 10
-				pt_y := max.Y
+				pt_y := max.Y + 32
 
 				im2 := go_image.NewRGBA(go_image.Rect(0, 0, w, h))
 
@@ -167,7 +169,7 @@ func main() {
 				d := &font.Drawer{
 					Dst:  im2,
 					Src:  go_image.NewUniform(col),
-					Face: basicfont.Face7x13,
+					Face: inconsolata.Bold8x16,
 					Dot:  point,
 				}
 
