@@ -149,13 +149,19 @@ func main() {
 			w := max.X
 			h := max.Y + 10 // ????
 
+			pt_x := 10
+			pt_y := max.Y
+			
 			im2 := go_image.NewRGBA(go_image.Rect(0, 0, w, h))
 
 			draw.Draw(im2, bounds, im, go_image.ZP, draw.Src)
 
 			col := color.RGBA{0, 0, 0, 255}
 			
-			point := fixed.Point26_6{fixed.Int26_6(10 * 64), fixed.Int26_6(max.Y * 64)}
+			point := fixed.Point26_6{
+			      fixed.Int26_6(pt_x * 64),
+			      fixed.Int26_6(pt_y * 64),
+			}
 
 			d := &font.Drawer{
 				Dst:  im2,
