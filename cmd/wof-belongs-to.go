@@ -1,6 +1,6 @@
 package main
 
-// ./bin/wof-belongs-to -out ./belongs-to -source /usr/local/data/sfomuseum-data-architecture/data -include-placetype concourse -include-placetype wing -belongs-to 1159157271 /usr/local/data/sfomuseum-data-architecture/
+// ./bin/wof-belongs-to -html -out ./belongs-to -source /usr/local/data/sfomuseum-data-architecture/data -include-placetype concourse -include-placetype wing -belongs-to 1159157271 /usr/local/data/sfomuseum-data-architecture/
 
 import (
 	"flag"
@@ -32,6 +32,7 @@ func main() {
 	flag.Var(&sources, "source", "One or more filesystem based sources to use to read WOF ID data, which may or may not be part of the sources to graph. This is work in progress.")
 
 	out := flag.String("out", "", "...")
+	html := flag.Bool("html", false, "...")
 
 	mode := flag.String("mode", "repo", "...")
 
@@ -117,7 +118,9 @@ func main() {
 
 	//
 
-	render_features := func(first geojson.Feature, features ...geojson.Feature) error {
+	render_features := func(first geojson.Feature, features ...geojson.Feature) ([]*render.Image, error) {
+
+		images := make([]*render.Image, 0)
 
 		for _, f := range features {
 
@@ -128,16 +131,16 @@ func main() {
 				Root:   root,
 			}
 
-			path, err := render.RenderFeatureAsPNG(f, opts)
+			im, err := render.RenderFeatureAsPNG(f, opts)
 
 			if err != nil {
-				return err
+				return nil, err
 			}
 
-			log.Println(path)
+			images = append(images, im)
 		}
 
-		return nil
+		return images, nil
 	}
 
 	for belongsto_id, descendants := range idx {
@@ -163,6 +166,27 @@ func main() {
 			features[i+1] = f
 		}
 
-		render_features(features[0], features...)
+		first := features[0]
+
+		images, err := render_features(first, features...)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		if *html {
+
+			root := filepath.Join(*out, first.Id())
+
+			opts := &render.RenderOptions{
+				Root: root,
+			}
+
+			err = render.RenderIndexForImages(images, opts)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
 	}
 }

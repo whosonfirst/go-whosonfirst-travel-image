@@ -1,7 +1,7 @@
-{{ define "index" }}<!DOCTYPE html>
+{{ define "images" }}<!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>{{ .ID }}</title>
+    <title>{{ .Title }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="referrer" content="origin">
     <meta http-equiv="X-UA-Compatible" content="IE=9" />
@@ -39,8 +39,8 @@
       {{ range $i, $img := .Images }}
 
       <div class="image">
-	  <img src="{{ index $img 0 }}" />
-  	  <span class="caption">({{ $i }}) {{ index $img 1 }}</span>
+	  <img src="{{ $img.Filename }}" />
+  	  <span class="caption">({{ $i }}) {{ $img.Label }}</span>
       </div>
       
       {{ end }}
