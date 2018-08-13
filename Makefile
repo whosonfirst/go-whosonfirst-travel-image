@@ -7,7 +7,9 @@ prep:
 self:   prep rmdeps
 	if test -d src; then rm -rf src; fi
 	mkdir -p src/github.com/whosonfirst/go-whosonfirst-travel-image
-	# cp *.go src/github.com/whosonfirst/go-whosonfirst-travel-image/
+	cp *.go src/github.com/whosonfirst/go-whosonfirst-travel-image/
+	cp -r render src/github.com/whosonfirst/go-whosonfirst-travel-image/
+	cp -r util src/github.com/whosonfirst/go-whosonfirst-travel-image/
 	if test -d assets; then cp -r assets src/github.com/whosonfirst/go-whosonfirst-travel-image/; fi
 	cp -r vendor/* src/
 
@@ -41,8 +43,10 @@ vendor-deps: rmdeps deps
 	rm -rf src
 
 fmt:
-	# go fmt *.go
+	go fmt *.go
 	go fmt cmd/*.go
+	go fmt render/*.go
+	go fmt util/*.go
 
 assets: self
 	@GOPATH=$(GOPATH) go build -o bin/go-bindata ./vendor/github.com/whosonfirst/go-bindata/go-bindata/
