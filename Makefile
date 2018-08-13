@@ -21,6 +21,7 @@ deps:
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-travel"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-bindata"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-bindata-html-template"
+	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/warning"
 	@GOPATH=$(GOPATH) go get -u "golang.org/x/image/..."
 	mv src/github.com/whosonfirst/go-whosonfirst-travel/vendor/github.com/whosonfirst/go-whosonfirst-geojson-v2 src/github.com/whosonfirst/
 	mv src/github.com/whosonfirst/go-whosonfirst-travel/vendor/github.com/whosonfirst/go-whosonfirst-cli src/github.com/whosonfirst/
