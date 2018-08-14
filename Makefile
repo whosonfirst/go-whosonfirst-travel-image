@@ -57,5 +57,5 @@ assets: self
 
 bin: 	self
 	rm -rf bin/*
-	@GOPATH=$(GOPATH) go build -o bin/wof-travel-id cmd/wof-travel-id.go
-	@GOPATH=$(GOPATH) go build -o bin/wof-belongs-to cmd/wof-belongs-to.go
+	@GOPATH=$(GOPATH) go build -o bin/wof-travel-id-image cmd/wof-travel-id-image.go
+	@GOPATH=$(GOPATH) go build -o bin/wof-belongs-to-image cmd/wof-belongs-to-image.go

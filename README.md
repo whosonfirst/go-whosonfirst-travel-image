@@ -18,12 +18,12 @@ This should still be considered experimental.
 
 ## Tools
 
-Don't get too attached to anything yet. It might all still change...
+Don't get too attached to anything yet. It might all still change. As the names of the tools are really... bad.
 
-### wof-belongs-to
+### wof-belongs-to-image
 
 ```
-./bin/wof-belongs-to -labels -html -out ./belongs-to -source /usr/local/data/whosonfirst-data/data -include-placetype neighbourhood -belongs-to 85922583 /usr/local/data/whosonfirst-data
+./bin/wof-belongs-to-image -labels -html -out ./belongs-to -source /usr/local/data/whosonfirst-data/data -include-placetype neighbourhood -belongs-to 85922583 /usr/local/data/whosonfirst-data
 ```
 
 Time passes and eventually something like this will be produced:
@@ -32,10 +32,10 @@ Time passes and eventually something like this will be produced:
 
 _Why are some neighbourhoods rendered blank? I don't know yet..._
 
-### wof-travel-id
+### wof-travel-id-image
 
 ```
-./bin/wof-travel-id -source /usr/local/data/whosonfirst-data/data -superseded-by -timings -out test -html 1108955789
+./bin/wof-travel-id-image -source /usr/local/data/whosonfirst-data/data -superseded-by -timings -out test -html 1108955789
 2018/08/07 17:43:03 time to travel feature ID 85633755 182.121771ms
 2018/08/07 17:43:03 time to travel feature ID 85632667 307.617697ms
 2018/08/07 17:43:03 time to travel feature ID 1108955783 1.042050504s
