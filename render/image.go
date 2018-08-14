@@ -3,7 +3,6 @@ package render
 import (
 	"fmt"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2"
-	"github.com/whosonfirst/go-whosonfirst-geojson-v2/properties/whosonfirst"
 	wof_image "github.com/whosonfirst/go-whosonfirst-image"
 	"github.com/whosonfirst/go-whosonfirst-travel-image/util"
 	"golang.org/x/image/font"
@@ -41,7 +40,7 @@ func RenderFeatureAsPNG(f geojson.Feature, opts *RenderOptions) (*Image, error) 
 
 	fh.Close()
 
-	label := Label(f)
+	label := util.Label(f)
 
 	i := Image{
 		Filename: fname,
@@ -66,7 +65,7 @@ func RenderFeature(f geojson.Feature, opts *RenderOptions) (go_image.Image, erro
 
 	if opts.Labels {
 
-		label := Label(f)
+		label := util.Label(f)
 
 		bounds := im.Bounds()
 		max := bounds.Max
@@ -101,12 +100,4 @@ func RenderFeature(f geojson.Feature, opts *RenderOptions) (go_image.Image, erro
 	}
 
 	return final, nil
-}
-
-func Label(f geojson.Feature) string {
-
-	id := f.Id()
-	label := whosonfirst.LabelOrDerived(f)
-
-	return fmt.Sprintf("%s %s", id, label)
 }
