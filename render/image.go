@@ -18,6 +18,11 @@ import (
 func RenderFeatureAsPNG(f geojson.Feature, opts *RenderOptions) (*Image, error) {
 
 	fname := fmt.Sprintf("%s.png", f.Id())
+
+	if opts.Prefix != "" {
+		fname = fmt.Sprintf("%s-%s", opts.Prefix, fname)
+	}
+
 	path := filepath.Join(opts.Root, fname)
 
 	im, err := RenderFeature(f, opts)

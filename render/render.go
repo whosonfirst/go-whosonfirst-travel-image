@@ -8,4 +8,5 @@ type Image struct {
 type RenderOptions struct {
 	Labels bool
 	Root   string
+	Prefix string
 }

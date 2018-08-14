@@ -4,6 +4,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/whosonfirst/go-whosonfirst-cli/flags"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2/properties/whosonfirst"
@@ -123,13 +124,16 @@ func main() {
 
 		images := make([]*render.Image, 0)
 
-		for _, f := range features {
+		for i, f := range features {
 
 			root := filepath.Join(*out, first.Id())
+
+			prefix := fmt.Sprintf("%03d", i+1)
 
 			opts := &render.RenderOptions{
 				Labels: *labels,
 				Root:   root,
+				Prefix: prefix,
 			}
 
 			im, err := render.RenderFeatureAsPNG(f, opts)
