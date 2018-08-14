@@ -20,6 +20,18 @@ This should still be considered experimental.
 
 Don't get too attached to anything yet. It might all still change...
 
+### wof-belongs-to
+
+```
+./bin/wof-belongs-to -labels -html -out ./belongs-to -source /usr/local/data/whosonfirst-data/data -include-placetype neighbourhood -belongs-to 85922583 /usr/local/data/whosonfirst-data
+
+Time passes...
+```
+
+Which produces:
+
+![](docs/images/20180813-sf-belongs-to.png)
+
 ### wof-travel-id
 
 ```
