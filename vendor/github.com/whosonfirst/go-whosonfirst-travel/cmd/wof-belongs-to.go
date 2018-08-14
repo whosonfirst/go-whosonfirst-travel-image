@@ -5,7 +5,7 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"flag"
-	// "fmt"
+	"fmt"
 	"github.com/whosonfirst/go-whosonfirst-cli/flags"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2/properties/whosonfirst"
@@ -67,7 +67,7 @@ func (rs *BelongsToResultSet) Sort() {
 		case 1:
 			return false
 		}
-		
+
 		return rs.results[i].Label < rs.results[j].Label
 	})
 }
@@ -90,13 +90,13 @@ func (rs *BelongsToResultSet) AsJSON(wr io.Writer) error {
 	return nil
 }
 
-func (rs *BelongsToResultSet) AsCSV(wr io.Writer) error {
+func (rs *BelongsToResultSet) AsCSV(wr io.Writer, header bool) error {
 
 	csv_wr := csv.NewWriter(wr)
 
 	for i, r := range rs.Results() {
 
-		if i == 0 {
+		if i == 0 && header {
 
 			head, _ := r.ToCSVHeader()
 			err := csv_wr.Write(head)
@@ -168,6 +168,9 @@ func main() {
 	mode := flag.String("mode", "repo", "...")
 
 	as_json := flag.Bool("json", false, "...")
+	as_ids := flag.Bool("ids", false, "...")
+
+	csv_header := flag.Bool("csv-header", false, "...")
 	sort_rs := flag.Bool("sort", false, "...")
 
 	flag.Parse()
@@ -230,7 +233,13 @@ func main() {
 		rs.Sort()
 	}
 
-	if *as_json {
+	if *as_ids {
+
+		for _, r := range rs.Results() {
+			fmt.Println(r.Id)
+		}
+
+	} else if *as_json {
 
 		err := rs.AsJSON(os.Stdout)
 
@@ -240,7 +249,7 @@ func main() {
 
 	} else {
 
-		err := rs.AsCSV(os.Stdout)
+		err := rs.AsCSV(os.Stdout, *csv_header)
 
 		if err != nil {
 			log.Fatal(err)

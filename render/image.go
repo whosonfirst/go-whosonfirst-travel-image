@@ -12,12 +12,15 @@ import (
 	"image/color"
 	"image/draw"
 	"image/png"
+	"log"
 	"path/filepath"
 )
 
 func RenderFeatureAsPNG(f geojson.Feature, opts *RenderOptions) (*Image, error) {
 
-	fname := fmt.Sprintf("%s.png", f.Id())
+	fname := util.FilenameWithExtension(f, "png")
+
+	log.Println(f.Id(), fname)
 
 	if opts.Prefix != "" {
 		fname = fmt.Sprintf("%s-%s", opts.Prefix, fname)

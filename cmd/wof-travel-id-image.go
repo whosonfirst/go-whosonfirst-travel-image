@@ -9,6 +9,7 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-readwrite/reader"
 	"github.com/whosonfirst/go-whosonfirst-travel"
 	"github.com/whosonfirst/go-whosonfirst-travel-image/render"
+	"github.com/whosonfirst/go-whosonfirst-travel-image/util"
 	"github.com/whosonfirst/go-whosonfirst-travel/utils"
 	"log"
 	"os"
@@ -81,7 +82,9 @@ func main() {
 
 			prefix := fmt.Sprintf("%03d", step)
 
-			root := filepath.Join(abs_root, str_id)
+			fname := util.Filename(f)
+
+			root := filepath.Join(abs_root, fname)
 
 			opts := &render.RenderOptions{
 				Labels: *labels,
