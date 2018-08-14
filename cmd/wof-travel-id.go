@@ -1,58 +1,19 @@
 package main
 
-// this is one of those scripts that does too much stuff and should
-// almost certainly be chunked out in to package/library code but
-// today is is not... (20180807/thisisaaronland)
-
 import (
 	"context"
 	"flag"
-	"fmt"
-	"github.com/whosonfirst/go-bindata-html-template"
 	"github.com/whosonfirst/go-whosonfirst-cli/flags"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2"
-	"github.com/whosonfirst/go-whosonfirst-geojson-v2/properties/whosonfirst"
-	"github.com/whosonfirst/go-whosonfirst-image"
 	"github.com/whosonfirst/go-whosonfirst-readwrite/reader"
 	"github.com/whosonfirst/go-whosonfirst-travel"
-	"github.com/whosonfirst/go-whosonfirst-travel-image/assets/html"
+	"github.com/whosonfirst/go-whosonfirst-travel-image/render"
 	"github.com/whosonfirst/go-whosonfirst-travel/utils"
-	"golang.org/x/image/font"
-	"golang.org/x/image/font/inconsolata"
-	"golang.org/x/image/math/fixed"
-	go_image "image"
-	"image/color"
-	"image/draw"
-	"image/png"
 	"log"
 	"os"
 	"path/filepath"
 	"sync"
 )
-
-func OpenFilehandle(path string) (*os.File, error) {
-
-	abs_path, err := filepath.Abs(path)
-
-	if err != nil {
-		return nil, err
-	}
-
-	root := filepath.Dir(abs_path)
-
-	_, err = os.Stat(root)
-
-	if os.IsNotExist(err) {
-
-		err := os.MkdirAll(root, 0755)
-
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	return os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0644)
-}
 
 func main() {
 
@@ -64,7 +25,7 @@ func main() {
 
 	out := flag.String("out", "", "...")
 
-	draw_labels := flag.Bool("labels", false, "...")
+	labels := flag.Bool("labels", false, "...")
 	parent_id := flag.Bool("parent", false, "...")
 	supersedes := flag.Bool("supersedes", false, "...")
 	superseded_by := flag.Bool("superseded-by", false, "...")
@@ -72,7 +33,7 @@ func main() {
 	singleton := flag.Bool("singleton", true, "...")
 	timings := flag.Bool("timings", false, "...")
 
-	index_page := flag.Bool("html", false, "...")
+	html := flag.Bool("html", false, "...")
 
 	flag.Parse()
 
@@ -112,84 +73,28 @@ func main() {
 			log.Fatal(err)
 		}
 
-		images := make([][]string, 0)
+		images := make([]*render.Image, 0)
 		mu := new(sync.RWMutex)
 
 		cb := func(f geojson.Feature, step int64) error {
 
-			id := f.Id()
-
-			label := whosonfirst.LabelOrDerived(f)
-			label = fmt.Sprintf("%s %s", id, label)
-
-			fname := fmt.Sprintf("%03d-%s.png", step, id)
-
 			root := filepath.Join(abs_root, str_id)
-			path := filepath.Join(root, fname)
 
-			fh, err := OpenFilehandle(path)
+			opts := &render.RenderOptions{
+				Labels: *labels,
+				Root:   root,
+			}
+
+			im, err := render.RenderFeatureAsPNG(f, opts)
 
 			if err != nil {
 				return err
 			}
-
-			opts := image.NewDefaultOptions()
-			im, err := image.FeatureToImage(f, opts)
-
-			if err != nil {
-				return err
-			}
-
-			final := im
-
-			// TO DO : draw labels at the top of the image rather than bottom
-
-			if *draw_labels {
-
-				bounds := im.Bounds()
-				max := bounds.Max
-
-				w := max.X
-				h := max.Y + 52
-
-				pt_x := 10
-				pt_y := max.Y + 32
-
-				im2 := go_image.NewRGBA(go_image.Rect(0, 0, w, h))
-
-				draw.Draw(im2, bounds, im, go_image.ZP, draw.Src)
-
-				col := color.RGBA{0, 0, 0, 255}
-
-				point := fixed.Point26_6{
-					fixed.Int26_6(pt_x * 64),
-					fixed.Int26_6(pt_y * 64),
-				}
-
-				d := &font.Drawer{
-					Dst:  im2,
-					Src:  go_image.NewUniform(col),
-					Face: inconsolata.Bold8x16,
-					Dot:  point,
-				}
-
-				d.DrawString(label)
-
-				final = im2
-			}
-
-			err = png.Encode(fh, final)
-
-			if err != nil {
-				return err
-			}
-
-			fh.Close()
 
 			mu.Lock()
 			defer mu.Unlock()
 
-			images = append(images, []string{fname, label})
+			images = append(images, im)
 			return nil
 		}
 
@@ -224,48 +129,21 @@ func main() {
 			log.Fatal(err)
 		}
 
-		// speaking of things that really need to go in a separate package...
-		// (20180807/thisisaaronland)
-
-		if *index_page {
-
-			fname := "index.html"
+		if *html {
 
 			root := filepath.Join(abs_root, str_id)
-			path := filepath.Join(root, fname)
 
-			fh, err := OpenFilehandle(path)
-
-			if err != nil {
-				log.Fatal(err)
+			opts := &render.RenderOptions{
+				Root: root,
 			}
 
-			defer fh.Close()
-
-			type HTMLVars struct {
-				ID     string
-				Images [][]string
-			}
-
-			tpl := template.New("index", html.Asset)
-
-			tpl, err = tpl.ParseFiles("templates/html/index.html")
-
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			vars := HTMLVars{
-				ID:     str_id,
-				Images: images,
-			}
-
-			err = tpl.Execute(fh, vars)
+			err = render.RenderIndexForImages(images, opts)
 
 			if err != nil {
 				log.Fatal(err)
 			}
 		}
+
 	}
 
 }
