@@ -59,3 +59,4 @@ bin: 	self
 	rm -rf bin/*
 	@GOPATH=$(GOPATH) go build -o bin/wof-travel-id-image cmd/wof-travel-id-image.go
 	@GOPATH=$(GOPATH) go build -o bin/wof-belongs-to-image cmd/wof-belongs-to-image.go
+	@GOPATH=$(GOPATH) go build -o bin/wof-travel-filename cmd/wof-travel-filename.go
