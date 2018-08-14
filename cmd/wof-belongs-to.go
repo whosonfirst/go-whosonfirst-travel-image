@@ -33,6 +33,7 @@ func main() {
 
 	out := flag.String("out", "", "...")
 	html := flag.Bool("html", false, "...")
+	labels := flag.Bool("labels", false, "...")
 
 	mode := flag.String("mode", "repo", "...")
 
@@ -127,7 +128,7 @@ func main() {
 			root := filepath.Join(*out, first.Id())
 
 			opts := &render.RenderOptions{
-				Labels: true,
+				Labels: *labels,
 				Root:   root,
 			}
 
