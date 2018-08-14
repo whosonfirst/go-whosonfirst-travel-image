@@ -25,7 +25,10 @@ func Filename(f geojson.Feature) string {
 
 	ds := whosonfirst.DateSpan(f)
 
-	return fmt.Sprintf("%s-%s-%s", ds, id, name)
+	// always put the dates at the beginning for sorting
+	// always put the ID at the end so it's easy to tease apart
+
+	return fmt.Sprintf("%s-%s-%s", ds, name, id)
 }
 
 func FilenameWithExtension(f geojson.Feature, ext string) string {

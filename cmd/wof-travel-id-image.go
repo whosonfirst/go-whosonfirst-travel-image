@@ -75,16 +75,15 @@ func main() {
 			log.Fatal(err)
 		}
 
+		fname := util.Filename(f)
+		root := filepath.Join(abs_root, fname)
+
 		images := make([]*render.Image, 0)
 		mu := new(sync.RWMutex)
 
 		cb := func(f geojson.Feature, step int64) error {
 
 			prefix := fmt.Sprintf("%03d", step)
-
-			fname := util.Filename(f)
-
-			root := filepath.Join(abs_root, fname)
 
 			opts := &render.RenderOptions{
 				Labels: *labels,

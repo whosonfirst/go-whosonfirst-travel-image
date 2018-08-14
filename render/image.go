@@ -20,13 +20,13 @@ func RenderFeatureAsPNG(f geojson.Feature, opts *RenderOptions) (*Image, error) 
 
 	fname := util.FilenameWithExtension(f, "png")
 
-	log.Println(f.Id(), fname)
-
 	if opts.Prefix != "" {
 		fname = fmt.Sprintf("%s-%s", opts.Prefix, fname)
 	}
 
 	path := filepath.Join(opts.Root, fname)
+
+	log.Printf("render %s as %s\n", f.Id(), path)
 
 	im, err := RenderFeature(f, opts)
 
