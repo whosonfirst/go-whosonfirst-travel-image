@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"github.com/whosonfirst/go-whosonfirst-cli/flags"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2"
 	"github.com/whosonfirst/go-whosonfirst-readwrite/reader"
@@ -78,11 +79,14 @@ func main() {
 
 		cb := func(f geojson.Feature, step int64) error {
 
+			prefix := fmt.Sprintf("%03d", step)
+
 			root := filepath.Join(abs_root, str_id)
 
 			opts := &render.RenderOptions{
 				Labels: *labels,
 				Root:   root,
+				Prefix: prefix,
 			}
 
 			im, err := render.RenderFeatureAsPNG(f, opts)
