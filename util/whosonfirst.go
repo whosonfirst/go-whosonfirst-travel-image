@@ -1,5 +1,8 @@
 package util
 
+// this should be moved in to go-whosonfirst-travel and/or a general-purpose
+// WOF package (20180814/thisisaaronland)
+
 import (
 	"fmt"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2"
