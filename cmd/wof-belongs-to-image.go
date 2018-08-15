@@ -10,8 +10,9 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2/properties/whosonfirst"
 	"github.com/whosonfirst/go-whosonfirst-readwrite/reader"
 	"github.com/whosonfirst/go-whosonfirst-travel-image/render"
+	"github.com/whosonfirst/go-whosonfirst-travel-image/util" // PLEASE RECONCILE ME
 	"github.com/whosonfirst/go-whosonfirst-travel/traveler"
-	"github.com/whosonfirst/go-whosonfirst-travel/utils"
+	"github.com/whosonfirst/go-whosonfirst-travel/utils" // PLEASE RECONCILE ME
 	"log"
 	"os"
 	"path/filepath"
@@ -122,11 +123,12 @@ func main() {
 
 	render_features := func(first geojson.Feature, features ...geojson.Feature) ([]*render.Image, error) {
 
+		fname := util.Filename(first)
+		root := filepath.Join(*out, fname)
+
 		images := make([]*render.Image, 0)
 
 		for i, f := range features {
-
-			root := filepath.Join(*out, first.Id())
 
 			prefix := fmt.Sprintf("%03d", i+1)
 
