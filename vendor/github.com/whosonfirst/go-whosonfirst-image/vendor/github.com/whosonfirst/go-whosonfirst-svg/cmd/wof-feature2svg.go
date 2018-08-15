@@ -12,6 +12,7 @@ func main() {
 
 	var width = flag.Float64("width", 1024., "...")
 	var height = flag.Float64("height", 1024., "...")
+	var dopplr = flag.Bool("dopplr", false, "...")
 
 	flag.Parse()
 
@@ -19,6 +20,10 @@ func main() {
 
 	o.Width = *width
 	o.Height = *height
+
+	if *dopplr {
+		o.StyleFunction = svg.NewDopplrStyleFunction()
+	}
 
 	for _, path := range flag.Args() {
 

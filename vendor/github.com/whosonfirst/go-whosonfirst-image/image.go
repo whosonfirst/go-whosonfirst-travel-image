@@ -14,17 +14,21 @@ import (
 )
 
 type Options struct {
-	Width  int
-	Height int
-	Writer io.Writer
+	Width         int
+	Height        int
+	Writer        io.Writer
+	StyleFunction svg.StyleFunction
 }
 
 func NewDefaultOptions() *Options {
 
+	f := svg.NewDefaultStyleFunction()
+
 	opts := Options{
-		Width:  1024,
-		Height: 1024,
-		Writer: os.Stdout,
+		Width:         1024,
+		Height:        1024,
+		Writer:        os.Stdout,
+		StyleFunction: f,
 	}
 
 	return &opts
@@ -70,6 +74,7 @@ func FeatureToImage(f geojson.Feature, opts *Options) (image.Image, error) {
 	svg_opts.Writer = tmpfile
 	svg_opts.Height = float64(opts.Height)
 	svg_opts.Width = float64(opts.Width)
+	svg_opts.StyleFunction = opts.StyleFunction
 
 	err = svg.FeatureToSVG(f, svg_opts)
 

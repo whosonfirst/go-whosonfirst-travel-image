@@ -10,3 +10,5 @@ bin
 .travis.yml
 *.db
 *.svg
+*.png
+!images/*.png
