@@ -41,15 +41,7 @@ func NewDefaultOptions() *Options {
 func NewDefaultStyleFunction() StyleFunction {
 
 	style_func := func(f geojson.Feature) (map[string]string, error) {
-
-		id := fmt.Sprintf("wof-%s", f.Id())
-		pt := fmt.Sprintf("wof-%s", f.Placetype())
-
 		attrs := make(map[string]string)
-
-		attrs["class"] = pt
-		attrs["id"] = id
-
 		return attrs, nil
 	}
 
@@ -163,31 +155,41 @@ func FeatureToSVG(f geojson.Feature, opts *Options) error {
 	for k, v := range style_attrs {
 
 		// TO DO: consult this: https://github.com/srwiley/oksvg/blob/master/doc/SVG_Element_List.txt
-		
+
 		/*
-		ok := false
+			ok := false
 
-		switch k {
-		case "id":
-			ok = true
-		case "class":
-			ok = true
-		case "style":
-			ok = true
-		default:
-			// pass
-		}
+			switch k {
+			case "id":
+				ok = true
+			case "class":
+				ok = true
+			case "style":
+				ok = true
+			default:
+				// pass
+			}
 
-		if !ok {
-			msg := fmt.Sprintf("Invalid style attribute '%s'", k)
-			return errors.New(msg)
-		}
+			if !ok {
+				msg := fmt.Sprintf("Invalid style attribute '%s'", k)
+				return errors.New(msg)
+			}
 		*/
-		
+
 		attrs[k] = v
 	}
 
 	attrs["viewBox"] = fmt.Sprintf("0 0 %0.2f %0.2f", w, h)
+
+	id := fmt.Sprintf("wof-%s", f.Id())
+	attrs["id"] = id
+
+	pt := fmt.Sprintf("wof-%s", f.Placetype())
+
+	class, _ := attrs["class"]
+	class = fmt.Sprintf("%s %s", class, pt)
+
+	attrs["class"] = strings.Trim(class, " ")
 
 	namespaces := map[string]string{
 		"xmlns": "http://www.w3.org/2000/svg",
