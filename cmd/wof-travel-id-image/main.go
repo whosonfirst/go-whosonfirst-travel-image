@@ -4,9 +4,9 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/whosonfirst/go-whosonfirst-cli/flags"
+	"github.com/sfomuseum/go-flags/multi"
+	"github.com/whosonfirst/go-reader"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2"
-	"github.com/whosonfirst/go-whosonfirst-readwrite/reader"
 	"github.com/whosonfirst/go-whosonfirst-travel"
 	"github.com/whosonfirst/go-whosonfirst-travel-image/render"
 	"github.com/whosonfirst/go-whosonfirst-travel-image/util"
@@ -19,10 +19,10 @@ import (
 
 func main() {
 
-	var sources flags.MultiString
+	var sources multi.MultiString
 	flag.Var(&sources, "source", "One or more filesystem based sources to use to read WOF ID data, which may or may not be part of the sources to graph. This is work in progress.")
 
-	var follow flags.MultiString
+	var follow multi.MultiString
 	flag.Var(&follow, "follow", "...")
 
 	out := flag.String("out", "", "...")
@@ -38,6 +38,8 @@ func main() {
 	html := flag.Bool("html", false, "...")
 
 	flag.Parse()
+
+	ctx := context.Background()
 
 	if *out == "" {
 
@@ -56,7 +58,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	r, err := reader.NewMultiReaderFromStrings(sources...)
+	r, err := reader.NewMultiReaderFromURIs(ctx, sources...)
 
 	if err != nil {
 		log.Fatal(err)

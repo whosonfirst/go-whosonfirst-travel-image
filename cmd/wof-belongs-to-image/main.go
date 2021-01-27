@@ -1,14 +1,16 @@
 package main
 
-// ./bin/wof-belongs-to -html -out ./belongs-to -source /usr/local/data/sfomuseum-data-architecture/data -include-placetype concourse -include-placetype wing -belongs-to 1159157271 /usr/local/data/sfomuseum-data-architecture/
+// ./bin/wof-belongs-to -html -out ./belongs-to -source fs:///usr/local/data/sfomuseum-data-architecture/data -include-placetype concourse -include-placetype wing -belongs-to 1159157271 /usr/local/data/sfomuseum-data-architecture/
 
 import (
+	"context"
 	"flag"
 	"fmt"
-	"github.com/whosonfirst/go-whosonfirst-cli/flags"
+	"github.com/sfomuseum/go-flags/multi"
+	"github.com/whosonfirst/go-reader"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2/properties/whosonfirst"
-	"github.com/whosonfirst/go-whosonfirst-readwrite/reader"
+	_ "github.com/whosonfirst/go-whosonfirst-index/fs"
 	"github.com/whosonfirst/go-whosonfirst-travel-image/render"
 	"github.com/whosonfirst/go-whosonfirst-travel-image/util" // PLEASE RECONCILE ME
 	"github.com/whosonfirst/go-whosonfirst-travel/traveler"
@@ -21,23 +23,23 @@ import (
 
 func main() {
 
-	var belongs_to flags.MultiInt64
+	var belongs_to multi.MultiInt64
 	flag.Var(&belongs_to, "belongs-to", "...")
 
-	var include_placetype flags.MultiString
+	var include_placetype multi.MultiString
 	flag.Var(&include_placetype, "include-placetype", "...")
 
-	var exclude_placetype flags.MultiString
+	var exclude_placetype multi.MultiString
 	flag.Var(&exclude_placetype, "exclude-placetype", "...")
 
-	var sources flags.MultiString
+	var sources multi.MultiString
 	flag.Var(&sources, "source", "One or more filesystem based sources to use to read WOF ID data, which may or may not be part of the sources to graph. This is work in progress.")
 
 	out := flag.String("out", "", "...")
 	html := flag.Bool("html", false, "...")
 	labels := flag.Bool("labels", false, "...")
 
-	mode := flag.String("mode", "repo", "...")
+	mode := flag.String("mode", "repo://", "...")
 
 	flag.Parse()
 
@@ -52,7 +54,9 @@ func main() {
 		*out = cwd
 	}
 
-	r, err := reader.NewMultiReaderFromStrings(sources...)
+	ctx := context.Background()
+
+	r, err := reader.NewMultiReaderFromURIs(ctx, sources...)
 
 	if err != nil {
 		log.Fatal(err)

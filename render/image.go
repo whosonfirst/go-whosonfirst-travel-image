@@ -60,20 +60,20 @@ func RenderFeatureAsPNG(f geojson.Feature, opts *RenderOptions) (*Image, error) 
 
 func RenderFeature(f geojson.Feature, opts *RenderOptions) (go_image.Image, error) {
 
-     	style_func := func(f geojson.Feature) (map[string]string, error) {
+	style_func := func(f geojson.Feature) (map[string]string, error) {
 
 		fill := "#000000"
 
 		switch f.Placetype() {
 
-		       case "building":
-		       	    fill = "blue"
-		       case "wing":
-		       	    fill = "green"
-		       case "concourse":
-		       	    fill = "orange"
-		       default:
-			    // pass
+		case "building":
+			fill = "blue"
+		case "wing":
+			fill = "green"
+		case "concourse":
+			fill = "orange"
+		default:
+			// pass
 		}
 
 		attrs := make(map[string]string)
@@ -84,7 +84,7 @@ func RenderFeature(f geojson.Feature, opts *RenderOptions) (go_image.Image, erro
 
 	img_opts := wof_image.NewDefaultOptions()
 	img_opts.StyleFunction = style_func
-	
+
 	im, err := wof_image.FeatureToImage(f, img_opts)
 
 	if err != nil {
