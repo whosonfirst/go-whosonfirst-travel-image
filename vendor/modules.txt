@@ -1,0 +1,106 @@
+# github.com/aaronland/go-json-query v0.0.2
+github.com/aaronland/go-json-query
+# github.com/go-ini/ini v1.42.0
+github.com/go-ini/ini
+# github.com/hashicorp/errwrap v0.0.0-20141028054710-7554cd9344ce
+github.com/hashicorp/errwrap
+# github.com/hashicorp/go-multierror v0.0.0-20171204182908-b7773ae21874
+github.com/hashicorp/go-multierror
+# github.com/mmcloughlin/geohash v0.9.0
+github.com/mmcloughlin/geohash
+# github.com/patrickmn/go-cache v2.1.0+incompatible
+github.com/patrickmn/go-cache
+# github.com/paulmach/go.geojson v1.4.0
+github.com/paulmach/go.geojson
+# github.com/paulmach/orb v0.1.5
+github.com/paulmach/orb
+github.com/paulmach/orb/project
+# github.com/skelterjohn/geom v0.0.0-20180103142417-96f3e8a219c5
+github.com/skelterjohn/geom
+# github.com/srwiley/oksvg v0.0.0-20200311192757-870daf9aa564
+github.com/srwiley/oksvg
+# github.com/srwiley/rasterx v0.0.0-20200120212402-85cb7272f5e9
+github.com/srwiley/rasterx
+# github.com/tidwall/gjson v1.6.0
+github.com/tidwall/gjson
+# github.com/tidwall/match v1.0.1
+github.com/tidwall/match
+# github.com/tidwall/pretty v1.0.0
+github.com/tidwall/pretty
+# github.com/whosonfirst/go-bindata-html-template v0.1.0
+github.com/whosonfirst/go-bindata-html-template
+# github.com/whosonfirst/go-geojson-svg v0.0.3
+github.com/whosonfirst/go-geojson-svg
+# github.com/whosonfirst/go-whosonfirst-cache v0.1.0
+github.com/whosonfirst/go-whosonfirst-cache
+# github.com/whosonfirst/go-whosonfirst-cli v0.1.0
+github.com/whosonfirst/go-whosonfirst-cli/flags
+# github.com/whosonfirst/go-whosonfirst-flags v0.1.0
+github.com/whosonfirst/go-whosonfirst-flags
+github.com/whosonfirst/go-whosonfirst-flags/existential
+# github.com/whosonfirst/go-whosonfirst-geojson-v2 v0.14.1
+github.com/whosonfirst/go-whosonfirst-geojson-v2
+github.com/whosonfirst/go-whosonfirst-geojson-v2/feature
+github.com/whosonfirst/go-whosonfirst-geojson-v2/geometry
+github.com/whosonfirst/go-whosonfirst-geojson-v2/properties/geometry
+github.com/whosonfirst/go-whosonfirst-geojson-v2/properties/whosonfirst
+github.com/whosonfirst/go-whosonfirst-geojson-v2/utils
+# github.com/whosonfirst/go-whosonfirst-hash v0.1.0
+github.com/whosonfirst/go-whosonfirst-hash
+# github.com/whosonfirst/go-whosonfirst-image v0.0.1
+github.com/whosonfirst/go-whosonfirst-image
+# github.com/whosonfirst/go-whosonfirst-index v0.3.4
+github.com/whosonfirst/go-whosonfirst-index
+# github.com/whosonfirst/go-whosonfirst-log v0.1.0
+github.com/whosonfirst/go-whosonfirst-log
+# github.com/whosonfirst/go-whosonfirst-placetypes v0.1.0
+github.com/whosonfirst/go-whosonfirst-placetypes
+github.com/whosonfirst/go-whosonfirst-placetypes/placetypes
+# github.com/whosonfirst/go-whosonfirst-readwrite v0.1.0
+github.com/whosonfirst/go-whosonfirst-readwrite/reader
+github.com/whosonfirst/go-whosonfirst-readwrite/utils
+# github.com/whosonfirst/go-whosonfirst-sources v0.1.0
+github.com/whosonfirst/go-whosonfirst-sources
+github.com/whosonfirst/go-whosonfirst-sources/sources
+# github.com/whosonfirst/go-whosonfirst-spr v0.1.0
+github.com/whosonfirst/go-whosonfirst-spr
+github.com/whosonfirst/go-whosonfirst-spr/util
+# github.com/whosonfirst/go-whosonfirst-svg v0.0.3
+github.com/whosonfirst/go-whosonfirst-svg
+# github.com/whosonfirst/go-whosonfirst-travel v0.0.0-20210127184441-3e4050c02667
+github.com/whosonfirst/go-whosonfirst-travel
+github.com/whosonfirst/go-whosonfirst-travel/traveler
+github.com/whosonfirst/go-whosonfirst-travel/utils
+# github.com/whosonfirst/go-whosonfirst-uri v0.2.0
+github.com/whosonfirst/go-whosonfirst-uri
+# github.com/whosonfirst/warning v0.1.1
+github.com/whosonfirst/warning
+# golang.org/x/image v0.0.0-20201208152932-35266b937fa6
+golang.org/x/image/colornames
+golang.org/x/image/font
+golang.org/x/image/font/basicfont
+golang.org/x/image/font/inconsolata
+golang.org/x/image/math/fixed
+golang.org/x/image/vector
+# golang.org/x/net v0.0.0-20190724013045-ca1201d0de80
+golang.org/x/net/html
+golang.org/x/net/html/atom
+golang.org/x/net/html/charset
+# golang.org/x/text v0.3.2
+golang.org/x/text/encoding
+golang.org/x/text/encoding/charmap
+golang.org/x/text/encoding/htmlindex
+golang.org/x/text/encoding/internal
+golang.org/x/text/encoding/internal/identifier
+golang.org/x/text/encoding/japanese
+golang.org/x/text/encoding/korean
+golang.org/x/text/encoding/simplifiedchinese
+golang.org/x/text/encoding/traditionalchinese
+golang.org/x/text/encoding/unicode
+golang.org/x/text/internal/language
+golang.org/x/text/internal/language/compact
+golang.org/x/text/internal/tag
+golang.org/x/text/internal/utf8internal
+golang.org/x/text/language
+golang.org/x/text/runes
+golang.org/x/text/transform

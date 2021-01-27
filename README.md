@@ -2,23 +2,18 @@
 
 Go package for traveling Who's On First documents and their relations, and making pictures
 
-## Install
-
-You will need to have both `Go` (specifically a version of Go more recent than 1.7 so let's just assume you need [Go 1.9](https://golang.org/dl/) or higher) and the `make` programs installed on your computer. Assuming you do just type:
-
-```
-make bin
-```
-
-All of this package's dependencies are bundled with the code in the `vendor` directory.
-
 ## Important
 
 This should still be considered experimental.
 
 ## Tools
 
-Don't get too attached to anything yet. It might all still change. As the names of the tools are really... bad.
+``
+$> make cli
+go build -mod vendor -o bin/wof-travel-id-image cmd/wof-travel-id-image/main.go
+go build -mod vendor -o bin/wof-belongs-to-image cmd/wof-belongs-to-image/main.go
+go build -mod vendor -o bin/wof-travel-filename cmd/wof-travel-filename/main.go
+```
 
 ### wof-belongs-to-image
 
