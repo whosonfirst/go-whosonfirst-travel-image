@@ -6,8 +6,7 @@ import (
 	"fmt"
 	"github.com/sfomuseum/go-flags/multi"
 	"github.com/whosonfirst/go-reader"
-	"github.com/whosonfirst/go-whosonfirst-travel-image/util" // PLEASE RECONCILE ME
-	"github.com/whosonfirst/go-whosonfirst-travel/utils"      // PLEASE RECONCILE ME
+	"github.com/whosonfirst/go-whosonfirst-travel-image/util"
 	"log"
 )
 

@@ -1,9 +1,8 @@
 package render
 
 import (
-	"github.com/whosonfirst/go-bindata-html-template"
-	"github.com/whosonfirst/go-whosonfirst-travel-image/assets/html"
-	"github.com/whosonfirst/go-whosonfirst-travel-image/util"
+	"github.com/whosonfirst/go-whosonfirst-travel-image/templates/html"
+	"html/template"
 	"log"
 	"path/filepath"
 )
@@ -27,9 +26,9 @@ func RenderIndexForImages(images []*Image, opts *RenderOptions) error {
 		Images []*Image
 	}
 
-	tpl := template.New("images", html.Asset)
+	tpl := template.New("images")
 
-	tpl, err = tpl.ParseFiles("templates/html/images.html")
+	tpl, err = tpl.ParseFS(html.FS, "*.html")
 
 	if err != nil {
 		log.Fatal(err)

@@ -7,14 +7,14 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2/feature"
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2/properties/whosonfirst"
-	"github.com/whosonfirst/go-whosonfirst-index"
+	"github.com/whosonfirst/go-whosonfirst-iterate/v2/iterator"
 	"github.com/whosonfirst/go-whosonfirst-uri"
 	"github.com/whosonfirst/warning"
 	"io"
 	"log"
 )
 
-type BelongsToTravelFunc func(f geojson.Feature, container_id int64) error
+type BelongsToTravelFunc func(context.Context, geojson.Feature, int64) error
 
 type BelongsToTraveler struct {
 	Callback  BelongsToTravelFunc
@@ -24,7 +24,7 @@ type BelongsToTraveler struct {
 
 func NewDefaultBelongsToTravelFunc() (BelongsToTravelFunc, error) {
 
-	cb := func(f geojson.Feature, container_id int64) error {
+	cb := func(ctx context.Context, f geojson.Feature, container_id int64) error {
 
 		log.Printf("%s (%s) belongs to %d\n", f.Name(), f.Id(), container_id)
 		return nil
@@ -52,25 +52,9 @@ func NewDefaultBelongsToTraveler() (*BelongsToTraveler, error) {
 	return &t, nil
 }
 
-func (t *BelongsToTraveler) Travel(paths ...string) error {
+func (t *BelongsToTraveler) Travel(ctx context.Context, uris ...string) error {
 
-	idx_cb := func(ctx context.Context, fh io.Reader, args ...interface{}) error {
-
-		path, err := index.PathForContext(ctx)
-
-		if err != nil {
-			return err
-		}
-
-		is_wof, err := uri.IsWOFFile(path)
-
-		if err != nil {
-			return err
-		}
-
-		if !is_wof {
-			return nil
-		}
+	iter_cb := func(ctx context.Context, path string, fh io.ReadSeeker, args ...interface{}) error {
 
 		is_alt, err := uri.IsAltFile(path)
 
@@ -98,7 +82,7 @@ func (t *BelongsToTraveler) Travel(paths ...string) error {
 					continue
 				}
 
-				err := t.Callback(f, id)
+				err := t.Callback(ctx, f, id)
 
 				if err != nil {
 					msg := fmt.Sprintf("Unable to process '%s' because %s", path, err)
@@ -110,20 +94,11 @@ func (t *BelongsToTraveler) Travel(paths ...string) error {
 		return nil
 	}
 
-	idx, err := index.NewIndexer(t.Mode, idx_cb)
+	iter, err := iterator.NewIterator(ctx, t.Mode, iter_cb)
 
 	if err != nil {
 		return err
 	}
 
-	for _, path := range paths {
-
-		err := idx.IndexPath(path)
-
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
+	return iter.IterateURIs(ctx, uris...)
 }

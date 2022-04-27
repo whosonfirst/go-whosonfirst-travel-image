@@ -12,9 +12,8 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-geojson-v2/properties/whosonfirst"
 	_ "github.com/whosonfirst/go-whosonfirst-index/fs"
 	"github.com/whosonfirst/go-whosonfirst-travel-image/render"
-	"github.com/whosonfirst/go-whosonfirst-travel-image/util" // PLEASE RECONCILE ME
+	"github.com/whosonfirst/go-whosonfirst-travel-image/util" 
 	"github.com/whosonfirst/go-whosonfirst-travel/traveler"
-	"github.com/whosonfirst/go-whosonfirst-travel/utils" // PLEASE RECONCILE ME
 	"log"
 	"os"
 	"path/filepath"

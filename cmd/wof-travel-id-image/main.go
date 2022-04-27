@@ -10,7 +10,6 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-travel"
 	"github.com/whosonfirst/go-whosonfirst-travel-image/render"
 	"github.com/whosonfirst/go-whosonfirst-travel-image/util"
-	"github.com/whosonfirst/go-whosonfirst-travel/utils"
 	"log"
 	"os"
 	"path/filepath"

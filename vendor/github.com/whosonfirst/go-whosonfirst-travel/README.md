@@ -2,9 +2,11 @@
 
 Go package for traveling Who's On First documents and their relations
 
-## Important
+## Documentation
 
-This should still be considered experimental.
+[![Go Reference](https://pkg.go.dev/badge/github.com/whosonfirst/go-whosonfirst-travel.svg)](https://pkg.go.dev/github.com/whosonfirst/go-whosonfirst-travel)
+
+Documentation is incomplete.
 
 ## Tools
 
@@ -17,8 +19,37 @@ go build -mod vendor -o bin/wof-belongs-to cmd/wof-belongs-to/main.go
 ### wof-travel-id
 
 ```
+$> ./bin/wof-travel-id -h
+Usage of ./bin/wof-travel-id:
+  -csv
+    	Emit results formatted as a comma-separated values.
+  -hierarchies
+    	Travel the hierarchies for each ID specified.
+  -ids
+    	Emit results as a line-separated list of IDs (traveled).
+  -markdown
+    	Emit results formatted as Markdown.
+  -parent
+    	Travel the parent ID of each ID specified.
+  -singleton
+    	... (default true)
+  -source value
+    	One or more valid whosonfirst/go-reader URIs to use to read WOF ID data, which may or may not be part of the sources to graph. This is work in progress.
+  -stdin
+    	Read IDs to travel from STDIN
+  -superseded-by
+    	Travel records that supersede each ID specified.
+  -supersedes
+    	Travel records that are superseded by each ID specified.
+  -timings
+    	Display timing information
+```
+
+For example:
+
+```
 $> ./bin/wof-travel-id \
-	-source /usr/local/data/whosonfirst-data-venue-us-ca/data \
+	-source fs:///usr/local/data/whosonfirst-data-venue-us-ca/data \
 	-supersedes 890535433
 	
 2018/08/07 17:26:46 890535433 Rock Bar (2012 - uuuu)
