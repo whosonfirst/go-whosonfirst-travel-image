@@ -2,6 +2,7 @@ package render
 
 import (
 	"github.com/whosonfirst/go-whosonfirst-travel-image/templates/html"
+	"github.com/whosonfirst/go-whosonfirst-travel-image/util"	
 	"html/template"
 	"log"
 	"path/filepath"
@@ -13,14 +14,14 @@ func RenderIndexForImages(images []*Image, opts *RenderOptions) error {
 
 	path := filepath.Join(opts.Root, fname)
 
-	fh, err := util.OpenFilehandle(path)
+	fh, err := util.OpenFilehandle(path)	
 
 	if err != nil {
 		return err
 	}
 
-	defer fh.Close()
-
+	defer fh.Close()	
+	
 	type IndexVars struct {
 		Title  string
 		Images []*Image

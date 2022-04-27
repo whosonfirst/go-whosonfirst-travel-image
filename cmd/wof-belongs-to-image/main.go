@@ -66,7 +66,7 @@ func main() {
 
 	mu := new(sync.RWMutex)
 
-	cb := func(f geojson.Feature, belongsto_id int64) error {
+	cb := func(ctx context.Context, f geojson.Feature, belongsto_id int64) error {
 
 		pt := f.Placetype()
 		// log.Println("placetype", pt)
@@ -116,7 +116,7 @@ func main() {
 	t.Callback = cb
 
 	paths := flag.Args()
-	err = t.Travel(paths...)
+	err = t.Travel(ctx, paths...)
 
 	if err != nil {
 		log.Fatal(err)
